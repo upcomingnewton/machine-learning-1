@@ -11851,7 +11851,7 @@ Had we been trying to predict some continuous output, this could have been a reg
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># TODO: Calculate number of students</span>
@@ -11860,7 +11860,7 @@ Had we been trying to predict some continuous output, this could have been a reg
 
 <span class="c"># TODO: Calculate number of features</span>
 <span class="n">n_features</span> <span class="o">=</span> <span class="bp">None</span>
-<span class="n">n_features</span> <span class="o">=</span> <span class="n">student_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">n_features</span> <span class="o">=</span> <span class="n">student_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="c"># one of them is a target, so rest all are features</span>
 
 <span class="c"># TODO: Calculate passing students</span>
 <span class="n">n_passed</span> <span class="o">=</span> <span class="bp">None</span>
@@ -11893,7 +11893,7 @@ Had we been trying to predict some continuous output, this could have been a reg
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Total number of students: 395
-Number of features: 31
+Number of features: 30
 Number of students who passed: 265
 Number of students who failed: 130
 Graduation rate of the class: 67.09%
@@ -12174,7 +12174,8 @@ Given the data has a lot of features makes SVC a good classifier for this proble
 knn is non parametric , it means that it does not make any assumptions on the underlying data distribution. This is pretty useful in the real world as  practical data does not obey the typical theoretical assumptions made. It is also a lazy algorithm and it does not use the training data points to do any generalization. Hence it is generally very fast.Since it does not make any generalization regarding training data, hence almost all of data is required during testing phase which makes it a bad choice in case of large amounts of time.
 Our data is limited, with only around 300 entries for training set. Hence, performance problems wont affect us. By comparing features of failure to nearby students, we can make good predictions about who is going to fail or require help. Hence this is a good model for our purpose.</p>
 <p><strong>BaggingClassifier</strong></p>
-<p>Bagging Classifier is an example of ensemble methods, in which predictions of several base estimators built with a given learning algorithm  are combined to improve generalizability over a single estimator. Ensemble methods usually have higher accuracy since they combine several small decisions. Bagging method is used in fraud detection eg for credit cards where good accuracy is required. Techique is also used in intruder detection system.</p>
+<p>Bagging Classifier is an example of ensemble methods, in which predictions of several base estimators built with a given learning algorithm  are combined to improve generalizability over a single estimator. Ensemble methods usually have higher accuracy since they combine several small decisions. Bagging method is used in fraud detection eg for credit cards where good accuracy is required. Techique is also used in intruder detection system.
+Since Ensemble methods build several estimators, hence they have scalability issues. You cannot explain the final result with a single classifier which leads to loss of simplicity and illustrativeness. Ensemble methods are good in reducing overfitting. They also help keep check on bias and variance. Because of these reasons i choose Bagging method as last classifier.</p>
 
 </div>
 </div>
@@ -12272,7 +12273,7 @@ Our data is limited, with only around 300 entries for training set. Hence, perfo
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c"># TODO: Import the three supervised learning models from sklearn</span>
@@ -12283,9 +12284,9 @@ Our data is limited, with only around 300 entries for training set. Hence, perfo
 
 
 <span class="c"># TODO: Initialize the three models</span>
-<span class="n">clf_A</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">()</span>
-<span class="n">clf_B</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
-<span class="n">clf_C</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">SVC</span><span class="p">(),</span><span class="n">max_samples</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">clf_A</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<span class="n">clf_B</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">clf_C</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">SVC</span><span class="p">(),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
 
 
 <span class="c"># TODO: Set up the training set sizes</span>
@@ -12321,61 +12322,61 @@ Our data is limited, with only around 300 entries for training set. Hence, perfo
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>----------------------------------------------------------------------
 Training a SVC using a training set size of 100. . .
-Trained model in 0.0109 seconds
+Trained model in 0.0070 seconds
 Made predictions in 0.0028 seconds.
 F1 score for training set: 0.9067.
-Made predictions in 0.0023 seconds.
+Made predictions in 0.0027 seconds.
 F1 score for test set: 0.7755.
 Training a SVC using a training set size of 200. . .
-Trained model in 0.0166 seconds
+Trained model in 0.0119 seconds
 Made predictions in 0.0089 seconds.
 F1 score for training set: 0.8837.
 Made predictions in 0.0042 seconds.
 F1 score for test set: 0.8000.
 Training a SVC using a training set size of 300. . .
-Trained model in 0.0255 seconds
-Made predictions in 0.0159 seconds.
+Trained model in 0.0234 seconds
+Made predictions in 0.0156 seconds.
 F1 score for training set: 0.8761.
-Made predictions in 0.0057 seconds.
+Made predictions in 0.0054 seconds.
 F1 score for test set: 0.7838.
 ----------------------------------------------------------------------
 Training a KNeighborsClassifier using a training set size of 100. . .
-Trained model in 0.0026 seconds
-Made predictions in 0.0046 seconds.
-F1 score for training set: 0.8235.
-Made predictions in 0.0045 seconds.
-F1 score for test set: 0.7536.
+Trained model in 0.0027 seconds
+Made predictions in 0.0050 seconds.
+F1 score for training set: 0.8212.
+Made predictions in 0.0041 seconds.
+F1 score for test set: 0.7007.
 Training a KNeighborsClassifier using a training set size of 200. . .
-Trained model in 0.0024 seconds
-Made predictions in 0.0099 seconds.
-F1 score for training set: 0.8400.
-Made predictions in 0.0060 seconds.
-F1 score for test set: 0.7887.
+Trained model in 0.0026 seconds
+Made predictions in 0.0092 seconds.
+F1 score for training set: 0.8601.
+Made predictions in 0.0053 seconds.
+F1 score for test set: 0.7571.
 Training a KNeighborsClassifier using a training set size of 300. . .
-Trained model in 0.0032 seconds
-Made predictions in 0.0204 seconds.
-F1 score for training set: 0.8472.
-Made predictions in 0.0080 seconds.
-F1 score for test set: 0.7808.
+Trained model in 0.0028 seconds
+Made predictions in 0.0187 seconds.
+F1 score for training set: 0.8809.
+Made predictions in 0.0074 seconds.
+F1 score for test set: 0.7801.
 ----------------------------------------------------------------------
 Training a BaggingClassifier using a training set size of 100. . .
-Trained model in 0.0692 seconds
-Made predictions in 0.0110 seconds.
-F1 score for training set: 0.8500.
-Made predictions in 0.0109 seconds.
-F1 score for test set: 0.7746.
+Trained model in 0.0802 seconds
+Made predictions in 0.0270 seconds.
+F1 score for training set: 0.8767.
+Made predictions in 0.0213 seconds.
+F1 score for test set: 0.7413.
 Training a BaggingClassifier using a training set size of 200. . .
-Trained model in 0.0686 seconds
-Made predictions in 0.0206 seconds.
-F1 score for training set: 0.8000.
-Made predictions in 0.0163 seconds.
-F1 score for test set: 0.7792.
+Trained model in 0.1199 seconds
+Made predictions in 0.0634 seconds.
+F1 score for training set: 0.9010.
+Made predictions in 0.0356 seconds.
+F1 score for test set: 0.7826.
 Training a BaggingClassifier using a training set size of 300. . .
-Trained model in 0.1412 seconds
-Made predictions in 0.0266 seconds.
-F1 score for training set: 0.8119.
-Made predictions in 0.0112 seconds.
-F1 score for test set: 0.7742.
+Trained model in 0.1530 seconds
+Made predictions in 0.0745 seconds.
+F1 score for training set: 0.8943.
+Made predictions in 0.0209 seconds.
+F1 score for test set: 0.8056.
 </pre>
 </div>
 </div>
@@ -12412,22 +12413,22 @@ F1 score for test set: 0.7742.
 <tbody>
 <tr>
 <td style="text-align:center">100</td>
-<td style="text-align:center">0.0069</td>
-<td style="text-align:center">0.0026</td>
+<td style="text-align:center">0.0070</td>
+<td style="text-align:center">0.0027</td>
 <td style="text-align:center">0.9067</td>
 <td style="text-align:center">0.7755</td>
 </tr>
 <tr>
 <td style="text-align:center">200</td>
-<td style="text-align:center">0.0170</td>
-<td style="text-align:center">0.0043</td>
+<td style="text-align:center">0.0119</td>
+<td style="text-align:center">0.0042</td>
 <td style="text-align:center">0.8837</td>
 <td style="text-align:center">0.8000</td>
 </tr>
 <tr>
 <td style="text-align:center">300</td>
-<td style="text-align:center">0.0226</td>
-<td style="text-align:center">0.0057</td>
+<td style="text-align:center">0.0234</td>
+<td style="text-align:center">0.0054</td>
 <td style="text-align:center">0.8761</td>
 <td style="text-align:center">0.7838</td>
 </tr>
@@ -12446,24 +12447,24 @@ F1 score for test set: 0.7742.
 <tbody>
 <tr>
 <td style="text-align:center">100</td>
-<td style="text-align:center">0.0033</td>
-<td style="text-align:center">0.0044</td>
-<td style="text-align:center">0.8235</td>
-<td style="text-align:center">0.7536</td>
+<td style="text-align:center">0.0027</td>
+<td style="text-align:center">0.0041</td>
+<td style="text-align:center">0.8212</td>
+<td style="text-align:center">0.7007</td>
 </tr>
 <tr>
 <td style="text-align:center">200</td>
-<td style="text-align:center">0.0025</td>
-<td style="text-align:center">0.0062</td>
-<td style="text-align:center">0.8400</td>
-<td style="text-align:center">0.7887</td>
+<td style="text-align:center">0.0026</td>
+<td style="text-align:center">0.0053</td>
+<td style="text-align:center">0.8601</td>
+<td style="text-align:center">0.7571</td>
 </tr>
 <tr>
 <td style="text-align:center">300</td>
-<td style="text-align:center">0.0033</td>
-<td style="text-align:center">0.0078</td>
-<td style="text-align:center">0.8472</td>
-<td style="text-align:center">0.7808</td>
+<td style="text-align:center">0.0028</td>
+<td style="text-align:center">0.0074</td>
+<td style="text-align:center">0.8809</td>
+<td style="text-align:center">0.7801</td>
 </tr>
 </tbody>
 </table>
@@ -12480,24 +12481,24 @@ F1 score for test set: 0.7742.
 <tbody>
 <tr>
 <td style="text-align:center">100</td>
-<td style="text-align:center">0.1841</td>
-<td style="text-align:center">0.0109</td>
-<td style="text-align:center">0.8166</td>
-<td style="text-align:center">0.7742</td>
+<td style="text-align:center">0.0802</td>
+<td style="text-align:center">0.0213</td>
+<td style="text-align:center">0.8767</td>
+<td style="text-align:center">0.7413</td>
 </tr>
 <tr>
 <td style="text-align:center">200</td>
-<td style="text-align:center">0.0673</td>
-<td style="text-align:center">0.0112</td>
-<td style="text-align:center">0.7988</td>
-<td style="text-align:center">0.7742</td>
+<td style="text-align:center">0.1199</td>
+<td style="text-align:center">0.0356</td>
+<td style="text-align:center">0.9010</td>
+<td style="text-align:center">0.7826</td>
 </tr>
 <tr>
 <td style="text-align:center">300</td>
-<td style="text-align:center">0.0675</td>
-<td style="text-align:center">0.0126</td>
-<td style="text-align:center">0.8119</td>
-<td style="text-align:center">0.7742</td>
+<td style="text-align:center">0.1530</td>
+<td style="text-align:center">0.0209</td>
+<td style="text-align:center">0.8943</td>
+<td style="text-align:center">0.8056</td>
 </tr>
 </tbody>
 </table>
@@ -12630,7 +12631,7 @@ The most appropriate model would balance most of the constraints. We need to con
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Made predictions in 0.0062 seconds.
+<pre>Made predictions in 0.0064 seconds.
 Tuned model has a training F1 score of 0.8323.
 Made predictions in 0.0024 seconds.
 Tuned model has a testing F1 score of 0.7945.
